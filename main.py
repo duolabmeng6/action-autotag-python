@@ -28,17 +28,33 @@ def 版本号格式加一(版本号):
 # print("版本号大小比较:", 版本号大小比较("3.0.0", "2.0.1"))
 
 
-def 版本号排序(tags):
+def 版本号从大小写排序(tags):
     # 删除非数字的版本号
     tags = [tag for tag in tags if tag.replace('.', '').isdigit()]
-    # tags 从大到小排序
-    tags.sort(reverse=True)
+    tags_dict = []
+    for tag in tags:
+        # 获取数值
+        tag_value = int("".join(tag.split('.')))
+        tags_dict.append({
+            "tag": tag,
+            'tagint': tag_value
+        })
+    tags_dict.sort(key=lambda student: student['tagint'])
+    tags_dict.reverse()
+    # 重新组装
+    tags = []
+    for tag in tags_dict:
+        tags.append(tag['tag'])
     return tags
 
+# print("版本号从大小写排序:", 版本号从大小写排序(['0.0.10', '0.0.9', '3.2.8', '0.1.7', "v1.0", "latest"]))
 
-# tags = ["0.1.2", "1.0.1", "0.0.2", "0.0.2", "1.2", "1.5", "2.1", "latest", "v10.1"]
-# print("使用 版本号大小比较 排序:", 版本号排序(tags))
 
+
+# tags = ['latest', '0.0.10', '0.0.9', '0.0.8', '0.0.7']
+# tags = 版本号从大小写排序(tags)
+# print("使用 版本号大小比较 排序:", tags)
+#
 # exit()
 
 def 检查当前项目并且将版本号码加一(token, project_name):
@@ -66,9 +82,10 @@ def 检查当前项目并且将版本号码加一(token, project_name):
         k += 1
         if k == 5:
             break  # 取前5个标签
+    print("原来的 tags", tags)
 
     # 版本号排序
-    tags = 版本号排序(tags)
+    tags = 版本号从大小写排序(tags)
     # print("版本号排序:", tags)
     新版本号 = 版本号格式加一(tags[0])
     # print("新版本号:", 新版本号)
@@ -78,11 +95,10 @@ def 检查当前项目并且将版本号码加一(token, project_name):
 
     return 新版本号
 
-
 def main():
     print("suoyoude")
     print(os.environ)
-    
+
     GITHUB_REPOSITORY = os.environ.get('GITHUB_REPOSITORY')
     INPUT_TOKEN = os.environ.get('INPUT_TOKEN')
     新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
