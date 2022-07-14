@@ -8,6 +8,9 @@ inputs:
   path:
     description: Path to version file
     required: true
+  token:
+    description: token
+    required: true
 outputs:
   version:
     description: The version defined in the version file
