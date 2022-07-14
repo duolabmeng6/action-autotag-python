@@ -5,6 +5,9 @@ from github import Github
 def main():
     Name = os.environ['GITHUB_ACTION_REPOSITORY']
     my_output = f"Hello {Name}"
+    print("my_output")
+    print(my_output)
+
     variable = "1.0.0"
     print(f"::set-output name=myOutput::{my_output}")
     print(f"::set-output name=version::{variable}")
