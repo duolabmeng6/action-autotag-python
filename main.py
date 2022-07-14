@@ -80,6 +80,9 @@ def 检查当前项目并且将版本号码加一(token, project_name):
 
 
 def main():
+    print("suoyoude")
+    print(os.environ)
+    
     GITHUB_REPOSITORY = os.environ.get('GITHUB_REPOSITORY')
     INPUT_TOKEN = os.environ.get('INPUT_TOKEN')
     新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
