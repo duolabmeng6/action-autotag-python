@@ -2,6 +2,8 @@
 
 Automatically creating a version in the tag starts from 0.0.1 by default
 
+It's simple
+
 ## Usage
 
 The following is an example `.github/workflows/main.yml` that will execute when a `push` to the `master` branch occurs.
