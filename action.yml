@@ -5,6 +5,9 @@ inputs:
   myInput:
     description: "Input to use"
     default: "world"
+  token:
+    description: "Input to use"
+    default: "token"
 outputs:
   myOutput:
     description: "Output from the action"
