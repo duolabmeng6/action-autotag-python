@@ -15,7 +15,7 @@ If you need a tag to trigger the build, you need to apply for the key yourself.
 
 Please pay attention to the trigger condition to avoid loop execution
 
-If you use the ${{ secrets.GITHUB_TOKEN }} If you don't have enough permissions, you can't trigger the workflow.
+If you use the `${{ secrets.GITHUB_TOKEN }}` If you don't have enough permissions, you can't trigger the workflow.
 
 It's okay. He still creates tags.
 
