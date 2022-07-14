@@ -1,10 +1,11 @@
-# syntax=docker/dockerfile:1
+FROM python:3-slim AS builder
+ADD . /app
+WORKDIR /app
 
-FROM python:3.10-slim-buster
+RUN pip install --target=/app -r requirements.txt
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY main.py main.py
-
-CMD [ "python3", "main.py" ]
+FROM gcr.io/distroless/python3-debian10
+COPY --from=builder /app /app
+WORKDIR /app
+ENV PYTHONPATH /app
+CMD ["/app/main.py"]
