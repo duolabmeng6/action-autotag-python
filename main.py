@@ -3,7 +3,7 @@ from pathlib import Path
 from github import Github
 
 def main():
-    Name = os.environ["INPUT_GITHUB_ACTION_REPOSITORY"]
+    Name = os.environ['GITHUB_ACTION_REPOSITORY']
     my_output = f"Hello {Name}"
     variable = "1.0.0"
     print(f"::set-output name=myOutput::{my_output}")
