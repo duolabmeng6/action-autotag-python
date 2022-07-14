@@ -1,19 +1,13 @@
-name: Python Auto Version Tag
-description: Automatically generate new tags when version file changes
-author: Sam Morgan
-branding:
-  icon: tag
-  color: blue
+name: "Python Container Action Template"
+description: "Get started with Python Container actions"
+author: "Jacob Tomlinson"
 inputs:
-  path:
-    description: Path to version file
-    required: true
-  token:
-    description: token
-    required: true
+  myInput:
+    description: "Input to use"
+    default: "world"
 outputs:
-  version:
-    description: The version defined in the version file
+  myOutput:
+    description: "Output from the action"
 runs:
-  using: docker
-  image: Dockerfile
+  using: "docker"
+  image: "Dockerfile"
