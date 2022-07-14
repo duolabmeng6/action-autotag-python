@@ -8,15 +8,6 @@ inputs:
   path:
     description: Path to version file
     required: true
-  variable:
-    description: Variable name containing version information
-    required: true
-  prefix:
-    description: Prefix to add to the version tag
-    required: false
-  suffix:
-    description: Suffix to add to the version tag
-    required: false
 outputs:
   version:
     description: The version defined in the version file
