@@ -1,16 +1,16 @@
 # 在github中自动发布版本标签
 import os
+from functools import cmp_to_key
 
 from github import Github
 
 def 版本号递进(version_str):
     # 版本号格式为 x.x.x 满十进一
+    version_str = version_str.lstrip('v') # 去掉v
     version = version_str.split('.')
     if len(version) == 2:
         version.append('0')
-
     version = list(map(int, version))
-
     version[2] += 1
     if version[2] >= 10:
         version[2] = 0
@@ -18,20 +18,28 @@ def 版本号递进(version_str):
         if version[1] >= 10:
             version[1] = 0
             version[0] += 1
-
-    return '.'.join(map(str, version))
+    return 'v' + '.'.join(map(str, version))
 
 def 版本号从大小写排序(tags):
-    # 将版本号字符串转换为列表
-    arr = [v.split('.') for v in tags]
-    # 将版本号列表转换为数字列表
-    arr = [[int(n) for n in v] for v in arr]
-    # 使用 Python 内置排序函数，按照数字列表的顺序进行排序
-    arr = sorted(arr)
-    # 将数字列表转换回版本号列表
-    arr = ['.'.join([str(n) for n in v]) for v in arr]
-    arr.reverse()
-    return arr
+    def version_compare(v1, v2):
+        v1_list = v1.split('.')
+        v2_list = v2.split('.')
+        for i in range(len(v1_list)):
+            if v1_list[i].isdigit() and v2_list[i].isdigit():
+                if int(v1_list[i]) > int(v2_list[i]):
+                    return 1
+                elif int(v1_list[i]) < int(v2_list[i]):
+                    return -1
+            else:
+                if v1_list[i] > v2_list[i]:
+                    return 1
+                elif v1_list[i] < v2_list[i]:
+                    return -1
+        return 0
+
+    tags.sort(key=cmp_to_key(version_compare), reverse=True)
+    # print("版本号排序:", tags)
+    return tags
 
 
 
@@ -61,7 +69,7 @@ def 检查当前项目并且将版本号码加一(token, project_name):
     tags = []
     k = 0
     for tag in repo.get_tags():
-        print(tag.name)
+        # print(tag.name)
         tags.append(tag.name)
         k += 1
         if k == 5:
@@ -80,16 +88,14 @@ def 检查当前项目并且将版本号码加一(token, project_name):
     return 新版本号
 
 def main():
-    print("suoyoude")
-    print(os.environ)
+    print("进入自动发布版本标签程序")
+    # print(os.environ)
     GITHUB_REPOSITORY = os.environ.get('GITHUB_REPOSITORY')
     print("GITHUB_REPOSITORY",GITHUB_REPOSITORY)
     INPUT_TOKEN = os.environ.get('INPUT_TOKEN')
 
-
     新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
     print(f"::set-output name=NewVersion::{新版本号}")
-
 
 if __name__ == "__main__":
     main()
