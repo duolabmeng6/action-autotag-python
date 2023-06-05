@@ -1,7 +1,7 @@
 # 在github中自动发布版本标签
 import os
 from functools import cmp_to_key
-
+from natsort import natsorted, ns
 from github import Github
 
 def 版本号递进(version_str):
@@ -21,25 +21,9 @@ def 版本号递进(version_str):
     return 'v' + '.'.join(map(str, version))
 
 def 版本号从大小写排序(tags):
-    def version_compare(v1, v2):
-        v1_list = v1.split('.')
-        v2_list = v2.split('.')
-        for i in range(len(v1_list)):
-            if v1_list[i].isdigit() and v2_list[i].isdigit():
-                if int(v1_list[i]) > int(v2_list[i]):
-                    return 1
-                elif int(v1_list[i]) < int(v2_list[i]):
-                    return -1
-            else:
-                if v1_list[i] > v2_list[i]:
-                    return 1
-                elif v1_list[i] < v2_list[i]:
-                    return -1
-        return 0
-
-    tags.sort(key=cmp_to_key(version_compare), reverse=True)
-    # print("版本号排序:", tags)
+    tags = natsorted(tags, alg=ns.IGNORECASE | ns.LOCALE, reverse=True)
     return tags
+
 
 
 
