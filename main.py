@@ -80,6 +80,15 @@ def main():
 
     新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
     print(f"::set-output name=NewVersion::{新版本号}")
+    print(f"::save-state name=NewVersion::{新版本号}")
+
+    name = "NewVersion"
+    value = 新版本号
+    github_output = os.getenv("GITHUB_OUTPUT", "default_filename")
+    print("写出版本号信息")
+    with open(github_output, "a") as file:
+        file.write(f"{name}={value}\n")
+
 
 if __name__ == "__main__":
     main()
