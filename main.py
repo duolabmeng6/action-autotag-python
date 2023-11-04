@@ -41,7 +41,7 @@ def 检查当前项目并且将版本号码加一(token, project_name):
     # print("用户名",g.get_user().name)
     repo = g.get_repo(project_name)
     # print("项目名称",repo.name)
-    print("标签数量", repo.get_tags().totalCount)
+    print("Number of labels:", repo.get_tags().totalCount)
     if repo.get_tags().totalCount == 0:
         # 没有标签的话 创建标签 0.0.1
         sha = repo.get_commits()[0].sha
@@ -58,36 +58,36 @@ def 检查当前项目并且将版本号码加一(token, project_name):
         k += 1
         if k == 5:
             break  # 取前5个标签
-    print("原来的 tags", tags)
+    print("Original tags: ", tags)
 
     # 版本号排序
     tags = 版本号从大小写排序(tags)
     # print("版本号排序:", tags)
     新版本号 = 版本号递进(tags[0])
     # print("新版本号:", 新版本号)
-    print("创建新版本", 新版本号)
+    print("Create a new version: ", 新版本号)
     sha = repo.get_commits()[0].sha
     repo.create_git_ref(f"refs/tags/{新版本号}", sha)
 
     return 新版本号
 
-def main():
-    print("进入自动发布版本标签程序")
-    # print(os.environ)
-    GITHUB_REPOSITORY = os.environ.get('GITHUB_REPOSITORY')
-    print("GITHUB_REPOSITORY",GITHUB_REPOSITORY)
-    INPUT_TOKEN = os.environ.get('INPUT_TOKEN')
-
-    新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
-    print(f"::set-output name=NewVersion::{新版本号}")
-    print(f"::save-state name=NewVersion::{新版本号}")
-
+def Github输出变量(name,value):
     name = "NewVersion"
     value = 新版本号
     github_output = os.getenv("GITHUB_OUTPUT", "default_filename")
-    print("写出版本号信息")
     with open(github_output, "a") as file:
         file.write(f"{name}={value}\n")
+
+def main():
+    print("Enter the automatic release version tag program")
+    # print(os.environ)
+    GITHUB_REPOSITORY = os.environ.get('GITHUB_REPOSITORY')
+    # print("GITHUB_REPOSITORY",GITHUB_REPOSITORY)
+    INPUT_TOKEN = os.environ.get('INPUT_TOKEN')
+
+    新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
+
+    Github输出变量("NewVersion",新版本号)
 
 
 if __name__ == "__main__":
