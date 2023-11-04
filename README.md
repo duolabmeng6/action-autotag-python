@@ -49,7 +49,7 @@ jobs:
       - uses: duolabmeng6/action-autotag-python@master
         id: create_version
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }} # ${{ secrets.LONGLONG }} # Use your own key to trigger tags' workflow
       - name: View variable
         run: |
           echo ${{ format('version={0}', steps.create_version.outputs.NewVersion ) }}
