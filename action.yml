@@ -8,6 +8,8 @@ inputs:
 outputs:
   NewVersion:
     description: "Output the new version number"
+  NewVersions:
+    description: "Output the new version number"
 runs:
   using: "docker"
   image: "Dockerfile"
