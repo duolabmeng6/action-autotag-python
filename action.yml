@@ -1,13 +1,13 @@
-name: "Python Container Action Template"
-description: "Get started with Python Container actions"
-author: "Jacob Tomlinson"
+name: "auto_tags"
+description: "Automatically converts the version number to one in ten"
+author: "duolabmeng6"
 inputs:
   token:
-    description: "Input to use"
+    description: "Fill out token: ${{ secrets.GITHUB_TOKEN }}"
     default: "token"
 outputs:
-  myOutput:
-    description: "Output from the action"
+  NewVersion:
+    description: "Output the new version number"
 runs:
   using: "docker"
   image: "Dockerfile"
