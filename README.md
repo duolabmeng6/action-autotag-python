@@ -30,24 +30,27 @@ It's okay. He still creates tags.
 # 下面是一个基础的工作流，你可以基于它来编写自己的 Github Actions
 name: auto_tag
 
-# 控制工作流何时运行
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
   workflow_dispatch:
 
-#权限
 permissions:
   contents: write
-# 工作流由一个或多个作业( job )组成，这些作业可以顺序运行也可以并行运行
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      NewVersion: ${{ steps.create_version.outputs.NewVersion }} 
     steps:
       - uses: actions/checkout@master
       - uses: duolabmeng6/action-autotag-python@master
+        id: create_version
         with:
-          token: ${{ secrets.LONGLONG }} # 需要用自己的秘钥
-
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: View variable
+        run: |
+          echo ${{ format('version={0}', steps.create_version.outputs.NewVersion ) }}
 ```
