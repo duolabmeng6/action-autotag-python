@@ -72,13 +72,13 @@ def 检查当前项目并且将版本号码加一(token, project_name):
     return 新版本号
 
 def Github输出变量(name,value):
-    github_output = os.getenv("GITHUB_OUTPUT", "")
-    with open(github_output, "a") as file:
+    GITHUB_OUTPUT = os.getenv("GITHUB_OUTPUT", "")
+    with open(GITHUB_OUTPUT, "a") as file:
         file.write(f"{name}={value}\n")
 
 def Github输出状态(name,value):
-    github_output = os.getenv("GITHUB_STATE", "")
-    with open(github_output, "a") as file:
+    GITHUB_STATE = os.getenv("GITHUB_STATE", "")
+    with open(GITHUB_STATE, "a") as file:
         file.write(f"{name}={value}\n")
 
 def main():
@@ -91,7 +91,6 @@ def main():
     新版本号 = 检查当前项目并且将版本号码加一(INPUT_TOKEN, GITHUB_REPOSITORY)
 
     Github输出变量("NewVersion",新版本号)
-    Github输出状态("NewVersions",新版本号)
 
 
 
